@@ -10,6 +10,9 @@
       <element id="archive" name="logic-1.0-SNAPSHOT.jar">
         <element id="artifact" artifact-name="logic:ejb exploded" />
       </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.1" />
+      </element>
       <element id="archive" name="view-1.0-SNAPSHOT.war">
         <element id="artifact" artifact-name="view:war exploded" />
       </element>
