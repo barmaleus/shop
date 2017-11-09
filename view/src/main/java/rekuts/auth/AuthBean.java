@@ -1,6 +1,7 @@
 package rekuts.auth;
 
 import org.apache.commons.lang3.StringUtils;
+import rekuts.auth.domain.ShopUser;
 import rekuts.auth.ejb.AuthenticationManager;
 
 import javax.ejb.EJB;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 @SessionScoped
 public class AuthBean implements Serializable{
 
-    private boolean loggedIn;
+    private ShopUser.Role role;
 
     private String login;
     private String password;
@@ -24,12 +25,12 @@ public class AuthBean implements Serializable{
     @EJB
     private AuthenticationManager authenticationManager;
 
-    public boolean isLoggedIn() {
-        return loggedIn;
+    public ShopUser.Role getRole() {
+        return role;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
+    public void setRole(ShopUser.Role role) {
+        this.role = role;
     }
 
     public String getLogin() {
@@ -58,13 +59,13 @@ public class AuthBean implements Serializable{
 
     public void doLogin() {
         if(StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
-            loggedIn = false;
+            role = null;
             return;
         }
 
-        loggedIn = authenticationManager.loginAsUser(login, password);
+        role = authenticationManager.login(login, password);
 
-        if(loggedIn) {
+        if(role != null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(requestedPage);
             } catch (IOException e) {
